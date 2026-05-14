@@ -9,6 +9,28 @@ namespace StatusBarKind {
 scene.onHitWall(SpriteKind.WartHog, function (sprite, location) {
     sprites.destroy(sprite)
 })
+statusbars.onStatusReached(StatusBarKind.Skill, statusbars.StatusComparison.GTE, statusbars.ComparisonType.Percentage, 100, function (status) {
+    textSprite.setIcon(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . 5 5 5 . . . . . . 
+        . . . . . . . 5 5 5 5 . . . . . 
+        . . . . . . . 4 5 4 4 . . . . . 
+        . 5 5 5 5 . . 5 5 5 . . 5 5 5 5 
+        . 4 5 5 5 5 5 5 8 5 5 5 5 5 5 4 
+        . . 4 5 5 5 5 8 2 8 5 5 5 5 4 . 
+        . . . 4 5 4 5 5 8 5 5 4 5 4 . . 
+        . . . . 4 . 4 5 5 5 4 . 4 . . . 
+        . . . . . . 5 4 4 4 5 . . . . . 
+        . . . . 5 5 4 . . . 4 5 5 . . . 
+        . . . . 4 5 . . . . . 5 4 . . . 
+        . . . . . 4 . . . . . 4 . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    info.changeLifeBy(1)
+    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
+})
 sprites.onOverlap(SpriteKind.kamikaze, SpriteKind.Player, function (sprite, otherSprite) {
     scene.cameraShake(4, 200)
     info.changeLifeBy(-2)
@@ -17,52 +39,6 @@ sprites.onOverlap(SpriteKind.kamikaze, SpriteKind.Player, function (sprite, othe
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     story.clearAllText()
-})
-statusbars.onStatusReached(StatusBarKind.Skill, statusbars.StatusComparison.EQ, statusbars.ComparisonType.Percentage, 25, function (status) {
-    textSprite = textsprite.create("rank", 0, 5)
-    textSprite.setIcon(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . e e e e . . e e e . . e e e e 
-        . c e e e e e e f e e e e e e c 
-        . . c e e e e e e e e e e e c . 
-        . . . c e c e e e e e c e c . . 
-        . . . . c . c e e e c . c . . . 
-        . . . . . . . c c c . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `)
-    info.changeLifeBy(1)
-    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
-    textSprite.setPosition(35, 108)
-})
-statusbars.onStatusReached(StatusBarKind.Skill, statusbars.StatusComparison.EQ, statusbars.ComparisonType.Percentage, 50, function (status) {
-    textSprite.setIcon(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . b b b b . . b b b . . b b b b 
-        . c b b b b b b b b b b b b b c 
-        . . c b b b b f b f b b b b c . 
-        . . . c b c b b b b b c b c . . 
-        . . . . c . c b b b c . c . . . 
-        . . . . . . . c c c . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `)
-    info.changeLifeBy(1)
-    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
 })
 info.onScore(1000, function () {
     FlyingFortress = sprites.create(img`
@@ -167,7 +143,7 @@ info.onScore(1000, function () {
         ....................................................................................................
         ....................................................................................................
         `, SpriteKind.Boss)
-    scaling.scaleToPercent(FlyingFortress, 200, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+    scaling.scaleToPercent(FlyingFortress, 180, ScaleDirection.Uniformly, ScaleAnchor.Middle)
     FlyingFortress.setPosition(200, 60)
     FlyingFortress.setVelocity(-5, 0)
     statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
@@ -207,22 +183,22 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Boss, function (sprite, othe
     statusbar.value += -1
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.InBackground)
 })
-statusbars.onStatusReached(StatusBarKind.Skill, statusbars.StatusComparison.EQ, statusbars.ComparisonType.Percentage, 100, function (status) {
+statusbars.onStatusReached(StatusBarKind.Skill, statusbars.StatusComparison.GTE, statusbars.ComparisonType.Percentage, 75, function (status) {
     textSprite.setIcon(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . 5 5 5 . . . . . . 
-        . . . . . . . 5 5 5 5 . . . . . 
-        . . . . . . . 4 5 4 4 . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
         . 5 5 5 5 . . 5 5 5 . . 5 5 5 5 
-        . 4 5 5 5 5 5 5 8 5 5 5 5 5 5 4 
-        . . 4 5 5 5 5 8 2 8 5 5 5 5 4 . 
-        . . . 4 5 4 5 5 8 5 5 4 5 4 . . 
+        . 4 5 5 5 5 5 5 f 5 5 5 5 5 5 4 
+        . . 4 5 5 5 5 f 5 f 5 5 5 5 4 . 
+        . . . 4 5 4 5 5 5 5 5 4 5 4 . . 
         . . . . 4 . 4 5 5 5 4 . 4 . . . 
-        . . . . . . 5 4 4 4 5 . . . . . 
-        . . . . 5 5 4 . . . 4 5 5 . . . 
-        . . . . 4 5 . . . . . 5 4 . . . 
-        . . . . . 4 . . . . . 4 . . . . 
+        . . . . . . . 4 4 4 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `)
@@ -338,7 +314,7 @@ info.onScore(100, function () {
         ....................................................................................................
         ....................................................................................................
         `, SpriteKind.Boss)
-    scaling.scaleToPercent(FlyingFortress, 200, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+    scaling.scaleToPercent(FlyingFortress, 180, ScaleDirection.Uniformly, ScaleAnchor.Middle)
     FlyingFortress.setPosition(200, 60)
     FlyingFortress.setVelocity(-5, 0)
     statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
@@ -353,6 +329,28 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSp
     info.changeLifeBy(-1)
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.InBackground)
     sprites.destroy(sprite, effects.disintegrate, 100)
+})
+statusbars.onStatusReached(StatusBarKind.Skill, statusbars.StatusComparison.GTE, statusbars.ComparisonType.Percentage, 50, function (status) {
+    textSprite.setIcon(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . b b b b . . b b b . . b b b b 
+        . c b b b b b b b b b b b b b c 
+        . . c b b b b f b f b b b b c . 
+        . . . c b c b b b b b c b c . . 
+        . . . . c . c b b b c . c . . . 
+        . . . . . . . c c c . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    info.changeLifeBy(1)
+    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
 })
 info.onLifeZero(function () {
     game.setGameOverMessage(false, "You died!")
@@ -474,12 +472,36 @@ info.onScore(500, function () {
         ....................................................................................................
         ....................................................................................................
         `, SpriteKind.Boss)
-    scaling.scaleToPercent(FlyingFortress, 200, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+    scaling.scaleToPercent(FlyingFortress, 180, ScaleDirection.Uniformly, ScaleAnchor.Middle)
     FlyingFortress.setPosition(200, 60)
     FlyingFortress.setVelocity(-5, 0)
     statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
     statusbar.value = 5000
     statusbar.attachToSprite(FlyingFortress)
+})
+statusbars.onStatusReached(StatusBarKind.Skill, statusbars.StatusComparison.GTE, statusbars.ComparisonType.Percentage, 25, function (status) {
+    textSprite = textsprite.create("rank", 0, 5)
+    textSprite.setIcon(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . e e e e . . e e e . . e e e e 
+        . c e e e e e e f e e e e e e c 
+        . . c e e e e e e e e e e e c . 
+        . . . c e c e e e e e c e c . . 
+        . . . . c . c e e e c . c . . . 
+        . . . . . . . c c c . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    info.changeLifeBy(1)
+    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
+    textSprite.setPosition(35, 108)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(sprite, effects.fire, 100)
@@ -490,28 +512,6 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 })
 scene.onHitWall(SpriteKind.kamikaze, function (sprite, location) {
     sprites.destroy(sprite)
-})
-statusbars.onStatusReached(StatusBarKind.Skill, statusbars.StatusComparison.EQ, statusbars.ComparisonType.Percentage, 75, function (status) {
-    textSprite.setIcon(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . 5 5 5 5 . . 5 5 5 . . 5 5 5 5 
-        . 4 5 5 5 5 5 5 f 5 5 5 5 5 5 4 
-        . . 4 5 5 5 5 f 5 f 5 5 5 5 4 . 
-        . . . 4 5 4 5 5 5 5 5 4 5 4 . . 
-        . . . . 4 . 4 5 5 5 4 . 4 . . . 
-        . . . . . . . 4 4 4 . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `)
-    info.changeLifeBy(1)
-    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
 })
 let EnemyFighter: Sprite = null
 let projectile: Sprite = null
@@ -645,11 +645,11 @@ scroller.setLayerImage(scroller.BackgroundLayer.Layer0, img`
     `)
 scroller.scrollBackgroundWithCamera(scroller.CameraScrollMode.OnlyHorizontal, scroller.BackgroundLayer.Layer0)
 scroller.scrollBackgroundWithSpeed(-80, 0, scroller.BackgroundLayer.Layer0)
-story.printText("Fighter Pilot", 78, 32, 15, 1, story.TextSpeed.Normal)
+story.printText("Fighter flight", 78, 32, 15, 1, story.TextSpeed.Normal)
 story.printText("By JT Games", 78, 32, 15, 1, story.TextSpeed.Normal)
 story.printText("hello new recruit!", 78, 32, 15, 1, story.TextSpeed.Normal)
 music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
-story.printText("you are now part of the " + randint(5, 20) + "th" + " air force division", 78, 32, 15, 1, story.TextSpeed.Normal)
+story.printText("you are now part of the " + randint(5, 20) + "th" + " fighter force division", 78, 32, 15, 1, story.TextSpeed.Normal)
 story.printText("your mission is to take down as many enemy fighters as possible", 78, 32, 15, 1, story.TextSpeed.Normal)
 story.printText("but beware, the enemy has gotten their hands on some old B-17s", 78, 32, 15, 1, story.TextSpeed.Normal)
 story.printText("the B-17s are carrying lethal bombs, so it is vital that you take them down", 78, 32, 15, 1, story.TextSpeed.Normal)
